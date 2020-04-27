@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Representa el comportamiento genérico de cualquier pantalla que forma
  * parte del juego
@@ -17,6 +22,7 @@ public abstract class Pantalla implements Screen
     // Atributos disponibles en todas las clases del proyecto
     public static final float ANCHO = 1280;
     public static final float ALTO = 720;
+    public boolean on_off;
 
     // Atributos disponibles solo en las subclases
     // Todas las pantallas tienen una cámara y una vista
@@ -61,5 +67,16 @@ public abstract class Pantalla implements Screen
         // Libera los recursos asignados por cada pantalla
         // Las subclases están obligadas a sobrescribir el método dispose()
         dispose();
+    }
+    public void resetOn_Off() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("texto.txt"));
+            on_off=Boolean.parseBoolean(reader.readLine());
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
