@@ -72,13 +72,7 @@ class Pantalla implements Screen
         ImageButton btnImg = new ImageButton(btn, btnPress);
         btnImg.setPosition(x-btnImg.getWidth()/2, y);
 
-        btnImg.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                System.out.println("clicke");
-            }
-        });
+        btnImg.addListener(listener);
 
         this.stage.addActor(btnImg);
 
@@ -89,20 +83,13 @@ class Pantalla implements Screen
         btnImg.setName("test");
         btnImg.setPosition(x-btnImg.getWidth()/2, y);
 
-        btnImg.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                System.out.println("clicke");
-                System.out.println(event);
-            }
-        });
+        btnImg.addListener(listener);
 
 
         this.stage.addActor(btnImg);
     }
 
-    void creacionTerminada(){
+    void setActiveScreen(){
         Gdx.input.setInputProcessor(this.stage);
     }
 
@@ -122,7 +109,6 @@ class Pantalla implements Screen
 
     @Override
     public void render(float delta) {
-        System.out.println("render");
         borrarPantalla();
         stage.getBatch().setProjectionMatrix(camara.combined);
         stage.getBatch().begin();
@@ -152,7 +138,7 @@ class Pantalla implements Screen
 
     @Override
     public void hide() {
-        dispose();
+        borrarPantalla();
     }
 
     @Override

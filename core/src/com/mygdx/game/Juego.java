@@ -42,6 +42,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		createMenu();
 		createAcerca();
 		createOptiones();
+		pantallaMenu.setActiveScreen();
 	}
 
 	private void agregarAssetsPantallas(){
@@ -84,7 +85,9 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						System.out.println("acerca");
+						pantallaAcerca.setActiveScreen();
+						setScreen(pantallaAcerca);
+
 					}
 				});
 
@@ -96,12 +99,13 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						pantallaOpciones.setActiveScreen();
+						setScreen(pantallaOpciones);
 					}
 				});
 
 		pantallaMenu.addTexto("fuenteTecno.fnt", "Bullet Time Reloaded", ANCHO/2, ALTO-ALTO/12);
 
-		pantallaMenu.creacionTerminada();
 
 	}
 
@@ -116,6 +120,8 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						getScreen().hide();
+						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
 					}
 				});
@@ -141,7 +147,6 @@ public class Juego extends com.badlogic.gdx.Game {
 				ANCHO/2,
 				ALTO-9*ALTO/16);
 
-		pantallaAcerca.creacionTerminada();
 
 	}
 
@@ -157,19 +162,20 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						getScreen().hide();
+						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
 					}
 				});
 
-		ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaSi.png", Texture.class)))),
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaNo.png", Texture.class)))),
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnJugar.png", Texture.class)))),
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnAcercaDe.png", Texture.class)))),
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnOpciones.png", Texture.class)))),
-				new TextureRegionDrawable(new TextureRegion((manager.get("btnAtras.png", Texture.class))))
-
-		);
+		ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+		if(Opciones.sonido) {
+			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaNo.png", Texture.class))));
+			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaSi.png", Texture.class))));
+		} else {
+			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaNo.png", Texture.class))));
+			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaSi.png", Texture.class))));
+		}
 
 		pantallaOpciones.createBtn(style,
 				ANCHO/2,
@@ -178,11 +184,12 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						((ImageButton)event.getStage().getActors().get(event.getButton())).setChecked(Opciones.toggleSonido());
+						Opciones.SaveOptions();
 					}
 				});
 
 
-		pantallaOpciones.creacionTerminada();
 	}
 
 
