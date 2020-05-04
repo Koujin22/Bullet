@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -24,6 +25,9 @@ public class Juego extends com.badlogic.gdx.Game {
 	private PantallaMenu pantallaOpciones;
 
 	private Nivel currentLevel;
+	private int currentLvl = 0;
+
+	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx", "mapaTutorial.tmx"};
 
 	private AssetManager manager;
 
@@ -62,17 +66,18 @@ public class Juego extends com.badlogic.gdx.Game {
 	private void agregarAssetsPantallas(){
 
 		manager.load("fondoSpace.jpg", Texture.class);
-		manager.load("btnJugar.png", Texture.class);
-		manager.load("btnJugarPresionado.png", Texture.class);
-		manager.load("btnAcercaDe.png", Texture.class);
-		manager.load("btnAcercaDePresionado.png", Texture.class);
-		manager.load("btnOpciones.png", Texture.class);
-		manager.load("btnOpcionesPresionado.png", Texture.class);
-		manager.load("btnOpcionesPresionado.png", Texture.class);
-		manager.load("btnAtras.png", Texture.class);
-		manager.load("btnAtrasPresionado.png", Texture.class);
-		manager.load("btnMusicaSi.png", Texture.class);
-		manager.load("btnMusicaNo.png", Texture.class);
+		manager.load("btn-play.png", Texture.class);
+		manager.load("btn-play-presionado.png", Texture.class);
+		manager.load("btn-about.png", Texture.class);
+		manager.load("btn-about-presionado.png", Texture.class);
+		manager.load("btn-configt.png", Texture.class);
+		manager.load("btn-configt-presionado.png", Texture.class);
+		manager.load("back.png", Texture.class);
+		manager.load("backPressed.png", Texture.class);
+		manager.load("btn-music-off.png", Texture.class);
+		manager.load("btn-music-off-presionado.png", Texture.class);
+		manager.load("btn-music-on.png", Texture.class);
+		manager.load("btn-music-on-presionado.png", Texture.class);
 		manager.finishLoading();
 
 	}
@@ -90,8 +95,8 @@ public class Juego extends com.badlogic.gdx.Game {
 	private void createMenu(){
 		pantallaMenu = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
-		pantallaMenu.createBtn(manager.get("btnJugar.png", Texture.class),
-				manager.get("btnJugarPresionado.png", Texture.class),
+		pantallaMenu.createBtn(manager.get("btn-play.png", Texture.class),
+				manager.get("btn-play-presionado.png", Texture.class),
 				ANCHO/2,
 				6*ALTO/10,
 				new ClickListener() {
@@ -103,8 +108,8 @@ public class Juego extends com.badlogic.gdx.Game {
 					}
 				});
 
-		pantallaMenu.createBtn(manager.get("btnAcercaDe.png", Texture.class),
-				manager.get("btnAcercaDePresionado.png", Texture.class),
+		pantallaMenu.createBtn(manager.get("btn-about.png", Texture.class),
+				manager.get("btn-about-presionado.png", Texture.class),
 				ANCHO/2,
 				2*ALTO/20,
 				new ClickListener() {
@@ -117,8 +122,8 @@ public class Juego extends com.badlogic.gdx.Game {
 					}
 				});
 
-		pantallaMenu.createBtn(manager.get("btnOpciones.png", Texture.class),
-				manager.get("btnOpcionesPresionado.png", Texture.class),
+		pantallaMenu.createBtn(manager.get("btn-configt.png", Texture.class),
+				manager.get("btn-configt-presionado.png", Texture.class),
 				ANCHO/2,
 				7*ALTO/20,
 				new ClickListener() {
@@ -138,8 +143,8 @@ public class Juego extends com.badlogic.gdx.Game {
 	private void createAcerca(){
 		pantallaAcerca = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
-		pantallaAcerca.createBtn(manager.get("btnAtras.png", Texture.class),
-				manager.get("btnAtrasPresionado.png", Texture.class),
+		pantallaAcerca.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
 				2*ALTO/10,
 				new ClickListener() {
@@ -180,8 +185,8 @@ public class Juego extends com.badlogic.gdx.Game {
 
 		pantallaOpciones = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
-		pantallaOpciones.createBtn(manager.get("btnAtras.png", Texture.class),
-				manager.get("btnAtrasPresionado.png", Texture.class),
+		pantallaOpciones.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
 				2*ALTO/10,
 				new ClickListener() {
@@ -196,11 +201,13 @@ public class Juego extends com.badlogic.gdx.Game {
 
 		ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
 		if(Opciones.sonido) {
-			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaNo.png", Texture.class))));
-			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaSi.png", Texture.class))));
+			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-on.png", Texture.class))));
+			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-off.png", Texture.class))));
+			style.imageCheckedOver = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-off-presionado.png", Texture.class))));
 		} else {
-			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaNo.png", Texture.class))));
-			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btnMusicaSi.png", Texture.class))));
+			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-off.png", Texture.class))));
+			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-on.png", Texture.class))));
+			style.imageCheckedOver = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-on-presionado.png", Texture.class))));
 		}
 
 		pantallaOpciones.createBtn(style,
@@ -220,9 +227,23 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void iniciarJuego(){
 		freeRecursosPantallas();
-		currentLevel = new Nivel(this, new TiledMap(), 1.5f);
+		currentLvl = 0;
+		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f);
 		setScreen(currentLevel);
 
 	}
+
+	void iniciarJuego(String filename){
+		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2);
+		setScreen(currentLevel);
+
+	}
+
+	void nextLevel(){
+		currentLvl++;
+		iniciarJuego(LEVEL_FILES[currentLvl]);
+
+	}
+
 
 }

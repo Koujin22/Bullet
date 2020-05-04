@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,11 +23,15 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -41,7 +49,11 @@ class Nivel extends Pantalla implements InputProcessor {
     private Personaje bala;
     private Mapa map;
 
-    private Stage escena2D, escenaHUD;
+    private boolean pause = false;
+
+    private Music audioFondo; //Largo
+
+    private Stage escena2D, escenaHUD, escenaPausa;
     private OrthographicCamera camera2D, cameraHUD;
     private Viewport vista2D, vistaHUD;
 
@@ -53,6 +65,7 @@ class Nivel extends Pantalla implements InputProcessor {
     private Touchpad pad;
     private float max_velocity;
     private boolean disposing = false;
+    private PantallaMenu pauseMenu;
 
     Nivel(Juego juego, TiledMap tiledMap, float max_velocity) {
         super(juego);
@@ -60,11 +73,46 @@ class Nivel extends Pantalla implements InputProcessor {
         setViews();
         crearHUD();
         addPlayer();
+        setSound();
         setWorld();
+        createPauseMenu();
         setInputProcesors();
         //TODO: assetmanager
 
         this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM);
+    }
+
+    private void createPauseMenu(){
+        pauseMenu = new PantallaMenu(juego);
+
+        pauseMenu.createBtn(new Texture("back.png"),
+               new Texture("backPressed.png"),
+                ANCHO/2,
+                ALTO/2,
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        pause = !pause;
+                    }
+                });
+
+        pauseMenu.createBtn(new Texture("back.png"),
+                new Texture("backPressed.png"),
+                ANCHO/2,
+                ALTO/5,
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        pause = !pause;
+                        endLevel(false);
+                    }
+                });
+
+        pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, ALTO-ALTO/12);
+        escenaPausa = pauseMenu.getStage();
+
     }
 
     private void setWorld(){
@@ -149,18 +197,19 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void setSound(){
-        //audioFondo = manager.get("musicaNueva.mp3");
-        //audioFondo.setLooping(true); //infinita
-        //if(on_off) {
-        //    audioFondo.play();
-        //}
-        //efectos
-        //efecto = manager.get("moneda.mp3");
-        //TODO
+        AssetManager manager = new AssetManager();
+        manager.load("musicaNueva.mp3", Music.class);
+        manager.finishLoading();
+        audioFondo = manager.get("musicaNueva.mp3", Music.class);
+        audioFondo.setLooping(true); //infinita
+        if(Opciones.sonido) {
+            audioFondo.play();
+        }
+
     }
 
     private void addPlayer(){
-        Texture ply = new Texture("spritePrincipal3.png");
+        Texture ply = new Texture("spritePrincipal2.png");
         bala = new Personaje(new Vector2(64,64), 100/PPM, 350/PPM,ply, (SpriteBatch) escena2D.getBatch(), PPM, max_velocity);
     }
 
@@ -168,6 +217,7 @@ class Nivel extends Pantalla implements InputProcessor {
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(escenaPausa);
         inputMultiplexer.addProcessor(escenaHUD);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -232,9 +282,15 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void endLevel(boolean win){
-        if(win) System.out.println("ganaste");
-        else System.out.println("perdiste");
-        juego.initPantallas(false);
+        if(win){
+            System.out.println("ganaste");
+            juego.nextLevel();
+        }
+        else{
+            System.out.println("perdiste");
+            juego.initPantallas(false);
+        }
+
 
     }
 
@@ -249,28 +305,37 @@ class Nivel extends Pantalla implements InputProcessor {
     @Override
     public void render(float delta) {
         borrarPantalla(.11f, .42f, .60f);
-        escena2D.getBatch().setProjectionMatrix(camera2D.combined);
-        escenaHUD.getBatch().setProjectionMatrix(cameraHUD.combined);
+        if(!pause){
+            escena2D.getBatch().setProjectionMatrix(camera2D.combined);
+            escenaHUD.getBatch().setProjectionMatrix(cameraHUD.combined);
 
-        bala.updatePos(delta, knobYPer);
-        updateCameraPos(delta);
+            bala.updatePos(delta, knobYPer);
+            updateCameraPos(delta);
+        }else {
+            escenaPausa.getBatch().setProjectionMatrix(cameraHUD.combined);
+
+        }
         camera2D.update();
         cameraHUD.update();
         map.render(delta);
-
         escena2D.getBatch().begin();
         bala.render(delta);
         escena2D.getBatch().end();
-
         escena2D.draw();
         escenaHUD.draw();
+        if(!disposing){
 
-
-        if(!disposing) {
             debug2d.render(world, camera2D.combined);
-            world.step(1 / 60f, 6, 2);
-        } else if(!world.isLocked()){
-            world.dispose();
+        }
+        if(!pause) {
+
+            if (!disposing) {
+                world.step(1 / 60f, 6, 2);
+            } else if (!world.isLocked()) {
+                world.dispose();
+            }
+        }else {
+            escenaPausa.draw();
         }
     }
 
@@ -301,15 +366,23 @@ class Nivel extends Pantalla implements InputProcessor {
     public void dispose() {
         //TODO: assetManager dispose
         this.disposing = true;
+        pauseMenu.dispose();
         map.dispose();
         escenaHUD.dispose();
         escena2D.dispose();
         debug2d.dispose();
+        audioFondo.stop();
+        audioFondo.dispose();
+
 
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode== Input.Keys.ESCAPE) {
+            this.pause = !this.pause;
+
+        }
         return false;
     }
 

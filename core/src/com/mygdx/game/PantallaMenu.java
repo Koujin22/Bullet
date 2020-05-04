@@ -17,7 +17,7 @@ import java.util.ArrayList;
 class PantallaMenu extends Pantalla {
 
 
-    private final Texture texturaFondo;
+    private Texture texturaFondo;
     private final Stage stage;
     private final ArrayList<Texto> texto = new ArrayList<>();
 
@@ -29,7 +29,15 @@ class PantallaMenu extends Pantalla {
         this.texturaFondo = texturaFondo;
         this.stage = new Stage(vista);
     }
+    PantallaMenu(Juego juego) {
+        super(juego);
 
+        this.stage = new Stage(vista);
+    }
+
+    Stage getStage(){
+        return stage;
+    }
 
     void createBtn(Texture texturaBoton, Texture textureBtnPress, float x, float y, ClickListener listener){
         TextureRegionDrawable btn = new TextureRegionDrawable(new TextureRegion((texturaBoton)));
@@ -78,7 +86,7 @@ class PantallaMenu extends Pantalla {
         borrarPantalla();
         stage.getBatch().setProjectionMatrix(camara.combined);
         stage.getBatch().begin();
-        stage.getBatch().draw(texturaFondo, 0, 0);
+        if(texturaFondo!=null) stage.getBatch().draw(texturaFondo, 0, 0);
         for (int i = 0; i<texto.size(); i++){
             texto.get(i).render();
         }
@@ -113,7 +121,7 @@ class PantallaMenu extends Pantalla {
         for (int i = 0; i<texto.size(); i++){
             texto.get(i).dispose();
         }
-        texturaFondo.dispose();
+        if(texturaFondo!=null) texturaFondo.dispose();
     }
 
 }
