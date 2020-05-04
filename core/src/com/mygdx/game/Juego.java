@@ -35,7 +35,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	static final float PPM = 32f;
 	static final float ANCHO = 1280;
 	static final float ALTO = 704;
-	
+
 	@Override
 	public void create () {
 		manager = new AssetManager();
@@ -57,10 +57,10 @@ public class Juego extends com.badlogic.gdx.Game {
 		createMenu();
 		createAcerca();
 		createOptiones();
-        pantallaMenu.setActiveScreen();
+		pantallaMenu.setActiveScreen();
 		setScreen(pantallaMenu);
 
-        currentLevel.dispose();
+		currentLevel.dispose();
 	}
 
 	private void agregarAssetsPantallas(){
@@ -69,7 +69,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		manager.load("btn-play.png", Texture.class);
 		manager.load("btn-play-presionado.png", Texture.class);
 		manager.load("btn-about.png", Texture.class);
-		manager.load("btn-about-presionado.png", Texture.class);
+		manager.load("btn-about-export-presionado.png", Texture.class);
 		manager.load("btn-configt.png", Texture.class);
 		manager.load("btn-configt-presionado.png", Texture.class);
 		manager.load("back.png", Texture.class);
@@ -98,7 +98,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.createBtn(manager.get("btn-play.png", Texture.class),
 				manager.get("btn-play-presionado.png", Texture.class),
 				ANCHO/2,
-				6*ALTO/10,
+				4*ALTO/8,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -109,9 +109,9 @@ public class Juego extends com.badlogic.gdx.Game {
 				});
 
 		pantallaMenu.createBtn(manager.get("btn-about.png", Texture.class),
-				manager.get("btn-about-presionado.png", Texture.class),
+				manager.get("btn-about-export-presionado.png", Texture.class),
 				ANCHO/2,
-				2*ALTO/20,
+				4*ALTO/15,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -125,7 +125,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.createBtn(manager.get("btn-configt.png", Texture.class),
 				manager.get("btn-configt-presionado.png", Texture.class),
 				ANCHO/2,
-				7*ALTO/20,
+				ALTO/30,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -169,11 +169,11 @@ public class Juego extends com.badlogic.gdx.Game {
 				"Ivan Honc, Bruno Vazquez, Jesus Alcala y Emiliano Heredia",
 				ANCHO/2,
 				ALTO-5*ALTO/16);
-        pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
 				"Desarrollado para la clase de desarrollo de videojuegos.",
 				ANCHO/2,
 				ALTO-7*ALTO/16);
-        pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
 				"Semestre Febrero-Junio 2020",
 				ANCHO/2,
 				ALTO-9*ALTO/16);
@@ -248,3 +248,4 @@ public class Juego extends com.badlogic.gdx.Game {
 
 
 }
+
