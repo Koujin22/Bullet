@@ -37,8 +37,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
-
 class Nivel extends Pantalla implements InputProcessor {
 
     private final float ANCHO = Juego.ANCHO;
@@ -66,15 +64,12 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private Touchpad pad;
     private float max_velocity;
-    private int nivelActual;
     private boolean disposing = false;
     private PantallaMenu pauseMenu;
 
-
-    Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual) {
+    Nivel(Juego juego, TiledMap tiledMap, float max_velocity) {
         super(juego);
         this.max_velocity = max_velocity;
-        this.nivelActual = nivelActual;
         setViews();
         crearHUD();
         addPlayer();
@@ -116,7 +111,6 @@ class Nivel extends Pantalla implements InputProcessor {
                 });
 
         pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, ALTO-ALTO/12);
-        pauseMenu.addTexto("fuenteTecno.fnt", "Nivel"+nivelActual, ANCHO-20, ALTO-20);
         escenaPausa = pauseMenu.getStage();
 
     }
@@ -214,10 +208,6 @@ class Nivel extends Pantalla implements InputProcessor {
 
     }
 
-    private void stopAuido(){
-        audioFondo.stop();
-    }
-
     private void addPlayer(){
         Texture ply = new Texture("spritePrincipal2.png");
         bala = new Personaje(new Vector2(64,64), 100/PPM, 350/PPM,ply, (SpriteBatch) escena2D.getBatch(), PPM, max_velocity);
@@ -251,6 +241,7 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void crearHUD(){
+
         Skin skin = new Skin();
         skin.add("fondo", new Texture("Joystick.png"));
         skin.add("boton", new Texture("SmallHandle.png"));
@@ -293,7 +284,6 @@ class Nivel extends Pantalla implements InputProcessor {
     private void endLevel(boolean win){
         if(win){
             System.out.println("ganaste");
-            stopAuido();
             juego.nextLevel();
         }
         else{
@@ -303,6 +293,8 @@ class Nivel extends Pantalla implements InputProcessor {
 
 
     }
+
+
 
 
     @Override
@@ -336,6 +328,7 @@ class Nivel extends Pantalla implements InputProcessor {
             debug2d.render(world, camera2D.combined);
         }
         if(!pause) {
+
             if (!disposing) {
                 world.step(1 / 60f, 6, 2);
             } else if (!world.isLocked()) {

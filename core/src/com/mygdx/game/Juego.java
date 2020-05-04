@@ -228,12 +228,13 @@ public class Juego extends com.badlogic.gdx.Game {
 	void iniciarJuego(){
 		freeRecursosPantallas();
 		currentLvl = 0;
-		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f);
 		setScreen(currentLevel);
+
 	}
 
 	void iniciarJuego(String filename){
-		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2);
 		setScreen(currentLevel);
 
 	}
