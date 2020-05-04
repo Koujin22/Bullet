@@ -41,15 +41,26 @@ public class Juego extends com.badlogic.gdx.Game {
 		setScreen(pantallaMenu);
 	}
 
-	private void initPantallas(){
+	void initPantallas(){
 		agregarAssetsPantallas();
 		createMenu();
 		createAcerca();
 		createOptiones();
 		pantallaMenu.setActiveScreen();
 	}
+	void initPantallas(boolean nul){
+		agregarAssetsPantallas();
+		createMenu();
+		createAcerca();
+		createOptiones();
+        pantallaMenu.setActiveScreen();
+		setScreen(pantallaMenu);
+
+        currentLevel.dispose();
+	}
 
 	private void agregarAssetsPantallas(){
+
 		manager.load("fondoSpace.jpg", Texture.class);
 		manager.load("btnJugar.png", Texture.class);
 		manager.load("btnJugarPresionado.png", Texture.class);
@@ -71,6 +82,9 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.dispose();
 		pantallaOpciones.dispose();
 		pantallaAcerca.dispose();
+		pantallaMenu = null;
+		pantallaAcerca = null;
+		pantallaOpciones = null;
 	}
 
 	private void createMenu(){
@@ -206,7 +220,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void iniciarJuego(){
 		freeRecursosPantallas();
-		currentLevel = new Nivel(this, new TiledMap(), 1f);
+		currentLevel = new Nivel(this, new TiledMap(), 1.5f);
 		setScreen(currentLevel);
 
 	}
