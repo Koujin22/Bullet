@@ -64,12 +64,14 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private Touchpad pad;
     private float max_velocity;
+    private int nivelActual;
     private boolean disposing = false;
     private PantallaMenu pauseMenu;
 
-    Nivel(Juego juego, TiledMap tiledMap, float max_velocity) {
+    Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual) {
         super(juego);
         this.max_velocity = max_velocity;
+        this.nivelActual = nivelActual;
         setViews();
         crearHUD();
         addPlayer();
@@ -113,6 +115,7 @@ class Nivel extends Pantalla implements InputProcessor {
                 });
 
         pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, 11*ALTO/12);
+        pauseMenu.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO/2, (11*ALTO/12)-100);
         escenaPausa = pauseMenu.getStage();
 
     }
