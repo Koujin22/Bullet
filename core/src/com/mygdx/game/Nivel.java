@@ -67,6 +67,7 @@ class Nivel extends Pantalla implements InputProcessor {
     private int nivelActual;
     private boolean disposing = false;
     private PantallaMenu pauseMenu;
+    private PantallaMenu nivelDisplay;
 
     Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual) {
         super(juego);
@@ -115,7 +116,6 @@ class Nivel extends Pantalla implements InputProcessor {
                 });
 
         pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, 11*ALTO/12);
-        pauseMenu.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO/2, (11*ALTO/12)-100);
         escenaPausa = pauseMenu.getStage();
 
     }
@@ -245,7 +245,9 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void crearHUD(){
-
+        nivelDisplay = new PantallaMenu(juego);
+        nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO-120, ALTO-20);
+        escenaHUD = nivelDisplay.getStage();
         Skin skin = new Skin();
         skin.add("fondo", new Texture("Joystick.png"));
         skin.add("boton", new Texture("SmallHandle.png"));
