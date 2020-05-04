@@ -25,7 +25,6 @@ class PantallaMenu extends Pantalla {
     // Constructor, inicializa los objetos camara, vista, batch
     PantallaMenu(Juego juego, Texture texturaFondo) {
         super(juego);
-
         this.texturaFondo = texturaFondo;
         this.stage = new Stage(vista);
     }
