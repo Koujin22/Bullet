@@ -68,11 +68,14 @@ class PantallaMenu extends Pantalla {
     }
 
     void addTexto(String archivo, String mensaje, float x, float y){
-        texto.add(new Texto(archivo,
+        Texto txt = new Texto(archivo,
                 mensaje,
                 x,
-                y,
-                stage.getBatch()));
+                y);
+
+        stage.addActor(txt);
+        texto.add(txt);
+
 
     }
 
@@ -87,9 +90,7 @@ class PantallaMenu extends Pantalla {
         stage.getBatch().setProjectionMatrix(camara.combined);
         stage.getBatch().begin();
         if(texturaFondo!=null) stage.getBatch().draw(texturaFondo, 0, 0);
-        for (int i = 0; i<texto.size(); i++){
-            texto.get(i).render();
-        }
+
         stage.getBatch().end();
         stage.draw();
     }

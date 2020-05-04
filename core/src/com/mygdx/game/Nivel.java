@@ -93,7 +93,9 @@ class Nivel extends Pantalla implements InputProcessor {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        pause = !pause;
+                        pause = false;
+
+                        inputMultiplexer.removeProcessor(escenaPausa);
                     }
                 });
 
@@ -110,7 +112,7 @@ class Nivel extends Pantalla implements InputProcessor {
                     }
                 });
 
-        pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, ALTO-ALTO/12);
+        pauseMenu.addTexto("fuenteTecno.fnt", "Pausa", ANCHO/2, 11*ALTO/12);
         escenaPausa = pauseMenu.getStage();
 
     }
@@ -217,7 +219,6 @@ class Nivel extends Pantalla implements InputProcessor {
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(this);
-        inputMultiplexer.addProcessor(escenaPausa);
         inputMultiplexer.addProcessor(escenaHUD);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -283,11 +284,9 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private void endLevel(boolean win){
         if(win){
-            System.out.println("ganaste");
             juego.nextLevel();
         }
         else{
-            System.out.println("perdiste");
             juego.initPantallas(false);
         }
 
@@ -381,6 +380,11 @@ class Nivel extends Pantalla implements InputProcessor {
     public boolean keyDown(int keycode) {
         if(keycode== Input.Keys.ESCAPE) {
             this.pause = !this.pause;
+            if(!pause){
+                inputMultiplexer.removeProcessor(escenaPausa);
+            }else{
+                inputMultiplexer.addProcessor(escenaPausa);
+            }
 
         }
         return false;
