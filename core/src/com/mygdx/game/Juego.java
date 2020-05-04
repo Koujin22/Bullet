@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,15 +19,18 @@ import java.io.FileWriter;
 public class Juego extends com.badlogic.gdx.Game {
 
 
-	private Pantalla pantallaMenu;
-	private Pantalla pantallaAcerca;
-	private Pantalla pantallaOpciones;
+	private PantallaMenu pantallaMenu;
+	private PantallaMenu pantallaAcerca;
+	private PantallaMenu pantallaOpciones;
+
+	private Nivel currentLevel;
 
 	private AssetManager manager;
 
 
+	static final float PPM = 32f;
 	static final float ANCHO = 1280;
-	static final float ALTO = 720;
+	static final float ALTO = 704;
 	
 	@Override
 	public void create () {
@@ -62,8 +66,15 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	}
 
+	private void freeRecursosPantallas(){
+		manager.clear();
+		pantallaMenu.dispose();
+		pantallaOpciones.dispose();
+		pantallaAcerca.dispose();
+	}
+
 	private void createMenu(){
-		pantallaMenu = new Pantalla(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaMenu = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
 		pantallaMenu.createBtn(manager.get("btnJugar.png", Texture.class),
 				manager.get("btnJugarPresionado.png", Texture.class),
@@ -74,6 +85,7 @@ public class Juego extends com.badlogic.gdx.Game {
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
 						//juego.setScreen(new PantallaJuego(juego));
+						iniciarJuego();
 					}
 				});
 
@@ -110,7 +122,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createAcerca(){
-		pantallaAcerca = new Pantalla(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaAcerca = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
 		pantallaAcerca.createBtn(manager.get("btnAtras.png", Texture.class),
 				manager.get("btnAtrasPresionado.png", Texture.class),
@@ -152,7 +164,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void createOptiones(){
 
-		pantallaOpciones = new Pantalla(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaOpciones = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
 
 		pantallaOpciones.createBtn(manager.get("btnAtras.png", Texture.class),
 				manager.get("btnAtrasPresionado.png", Texture.class),
@@ -192,5 +204,11 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	}
 
+	void iniciarJuego(){
+		freeRecursosPantallas();
+		currentLevel = new Nivel(this, new TiledMap(), 1f);
+		setScreen(currentLevel);
+
+	}
 
 }
