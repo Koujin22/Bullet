@@ -40,6 +40,7 @@ abstract class GameObject {
         }
         animacion = new Animation<>( 0.15f, animationFrames);
         animacion.setPlayMode(Animation.PlayMode.LOOP);
+
         this.bodyDef = new BodyDef();
         stateTime = 0f;
     }
@@ -117,13 +118,14 @@ abstract class GameObject {
         this.body = body;
     }
 
-    public Fixture getFixture() {
+    Fixture getFixture() {
         return fixture;
     }
 
-    public void setFixture(Fixture fixture) {
+    void setFixture(Fixture fixture) {
         this.fixture = fixture;
     }
 
     public abstract void start();
+
 }

@@ -13,6 +13,7 @@ class Personaje extends GameObject {
     private float KnobY = 0;
     private float start, curr, total;
     private int cuenta;
+    private boolean fall = false, slow = false;
 
     Personaje(Vector2 size, float x, float y, Texture textura, SpriteBatch batch, float max_velocity) {
         super(size, x, y, textura, batch);
@@ -37,11 +38,22 @@ class Personaje extends GameObject {
 
     void updatePos(float delta, float knoby){
         if(estado == EstadoMovimiento.CAMINANDO){
-            this.x += max_velocity* delta;
-            this.y += max_velocity * knoby*delta;
-
-            body.setLinearVelocity(max_velocity, max_velocity * knoby);
+            float velx = max_velocity;
+            float vely = max_velocity * knoby;
+            if(fall) vely -= 2f;
+            if(slow) velx *= .8f;
+            this.x += velx * delta;
+            this.y += vely * delta;
+            body.setLinearVelocity(velx, vely );
         }
+    }
+
+    void setFall(boolean fall){
+        this.fall = fall;
+    }
+
+    void setSlow(boolean slow){
+        this.slow = slow;
     }
 
     @Override
@@ -53,5 +65,9 @@ class Personaje extends GameObject {
     @Override
     public void start() {
         estado = EstadoMovimiento.CAMINANDO;
+    }
+
+    public boolean isSlow() {
+        return slow;
     }
 }

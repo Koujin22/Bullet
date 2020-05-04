@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -23,13 +24,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import org.w3c.dom.css.Rect;
+
 class Mapa {
 
 
     private OrthographicCamera  scrollingCamera;
-
-    private TiledMapTileLayer collisionObjectLayer;
-    private float tilesize;
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer rendererMapa;
 
@@ -45,27 +45,27 @@ class Mapa {
         mapa = new TmxMapLoader().load("mapaTutorial.tmx");
 
 
+        for (MapLayer layer : mapa.getLayers()){
+            if(layer.getName().equals("escenario")) continue;
+            objects = layer.getObjects();
 
-        objects = mapa.getLayers().get(1).getObjects();
+            for (RectangleMapObject rectangleMapObject : objects.getByType(RectangleMapObject.class)){
+                Rectangle rectangle = rectangleMapObject.getRectangle();
+                BodyDef groundBodyDef = new BodyDef();
+                groundBodyDef.position.set((rectangle.getX()+rectangle.width/2)*2.5f/ppm, (rectangle.getY()+rectangle.height/2)*2.5f/ppm);
+                Body groundBody = world.createBody(groundBodyDef);
+                PolygonShape groundBox = new PolygonShape();
+                groundBox.setAsBox((rectangle.getWidth()/2)*2.5f/ppm, (rectangle.getHeight()/2)*2.5f/ppm);
+                groundBody.createFixture(groundBox, 0.0f);
 
-        for (RectangleMapObject rectangleMapObject : objects.getByType(RectangleMapObject.class)){
-            Rectangle rectangle = rectangleMapObject.getRectangle();
-            BodyDef groundBodyDef = new BodyDef();
-            groundBodyDef.position.set((rectangle.getX()+rectangle.width/2)*2.5f/ppm, (rectangle.getY()+rectangle.height/2)*2.5f/ppm);
-            Body groundBody = world.createBody(groundBodyDef);
-            PolygonShape groundBox = new PolygonShape();
-            groundBox.setAsBox((rectangle.getWidth()/2)*2.5f/ppm, (rectangle.getHeight()/2)*2.5f/ppm);
-            groundBody.createFixture(groundBox, 0.0f);
-            groundBox.dispose();
+                groundBody.getFixtureList().get(0).setUserData(layer.getName());
+                groundBox.dispose();
+
+            }
         }
 
+
         rendererMapa = new OrthogonalTiledMapRenderer(mapa,2.5f/ppm);
-
-
-
-
-
-
     }
 
 
@@ -75,4 +75,11 @@ class Mapa {
         rendererMapa.render();
 
     }
+
+    void dispose(){
+        mapa.dispose();
+        rendererMapa.dispose();
+
+    }
+
 }

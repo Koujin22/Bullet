@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -50,6 +52,7 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private Touchpad pad;
     private float max_velocity;
+    private boolean disposing = false;
 
     Nivel(Juego juego, TiledMap tiledMap, float max_velocity) {
         super(juego);
@@ -69,19 +72,49 @@ class Nivel extends Pantalla implements InputProcessor {
 
 
         Box2D.init();
+
         world = new World(new Vector2(0,0), true);
         debug2d = new Box2DDebugRenderer();
         world.setContactListener(new ContactListener(){
 
             @Override
             public void beginContact(Contact contact) {
-                System.out.println("contacto");
+
+                switch ((String)contact.getFixtureB().getUserData()){
+                    case "looser":
+                        endLevel(false);
+                        break;
+                    case "winner":
+                        endLevel(true);
+                        break;
+                    case "fall":
+                        bala.setFall(true);
+                        break;
+                    case "slow":
+                        bala.setSlow(true);
+                        break;
+                    default:
+                        break;
+                }
+
+
+
             }
 
             @Override
             public void endContact(Contact contact) {
 
-                System.out.println("contacto");
+                switch ((String)contact.getFixtureB().getUserData()){
+                    case "fall":
+                        bala.setFall(false);
+                        break;
+                    case "slow":
+                        bala.setSlow(false);
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             @Override
@@ -188,21 +221,24 @@ class Nivel extends Pantalla implements InputProcessor {
 
     }
 
-    Stage getStage(){
-        return escena2D;
-    }
-
-    Stage getHUDStage(){
-        return escenaHUD;
-    }
-
     private void updateCameraPos(float delta){
         if(estado == EstadoMovimiento.CAMINANDO){
-            cameraHUD.translate(max_velocity*delta, 0);
-            camera2D.translate(max_velocity*delta, 0);
-            pad.setPosition(pad.getX()+max_velocity*delta, pad.getY());
+            float velx = max_velocity*delta;
+            if(bala.isSlow()) velx *= .8f;
+            cameraHUD.translate(velx, 0);
+            camera2D.translate(velx, 0);
+            pad.setPosition(pad.getX()+velx, pad.getY());
         }
     }
+
+    private void endLevel(boolean win){
+        if(win) System.out.println("ganaste");
+        else System.out.println("perdiste");
+        juego.initPantallas(false);
+
+    }
+
+
 
 
     @Override
@@ -229,9 +265,13 @@ class Nivel extends Pantalla implements InputProcessor {
         escena2D.draw();
         escenaHUD.draw();
 
-        debug2d.render(world, camera2D.combined);
 
-        world.step(1/60f,6,2);
+        if(!disposing) {
+            debug2d.render(world, camera2D.combined);
+            world.step(1 / 60f, 6, 2);
+        } else if(!world.isLocked()){
+            world.dispose();
+        }
     }
 
     public float getKnobYPer(){
@@ -259,6 +299,12 @@ class Nivel extends Pantalla implements InputProcessor {
 
     @Override
     public void dispose() {
+        //TODO: assetManager dispose
+        this.disposing = true;
+        map.dispose();
+        escenaHUD.dispose();
+        escena2D.dispose();
+        debug2d.dispose();
 
     }
 
