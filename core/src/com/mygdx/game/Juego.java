@@ -65,7 +65,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	private void agregarAssetsPantallas(){
 
-		manager.load("fondoSpace.jpg", Texture.class);
+		manager.load("fondopn.png", Texture.class);
 		manager.load("btn-play.png", Texture.class);
 		manager.load("btn-play-presionado.png", Texture.class);
 		manager.load("btn-about.png", Texture.class);
@@ -93,7 +93,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createMenu(){
-		pantallaMenu = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaMenu = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaMenu.createBtn(manager.get("btn-play.png", Texture.class),
 				manager.get("btn-play-presionado.png", Texture.class),
@@ -141,7 +141,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createAcerca(){
-		pantallaAcerca = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaAcerca = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaAcerca.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
@@ -183,7 +183,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void createOptiones(){
 
-		pantallaOpciones = new PantallaMenu(this, manager.get("fondoSpace.jpg", Texture.class));
+		pantallaOpciones = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaOpciones.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
