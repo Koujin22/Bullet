@@ -42,7 +42,7 @@ class Mapa {
 
         this.scrollingCamera = scrollingCamera;
 
-        mapa = new TmxMapLoader().load("mapaTutorial.tmx");
+        mapa = mapatmp;
 
 
         for (MapLayer layer : mapa.getLayers()){
@@ -65,7 +65,7 @@ class Mapa {
         }
 
 
-        rendererMapa = new OrthogonalTiledMapRenderer(mapa,2.5f/ppm);
+        rendererMapa = new OrthogonalTiledMapRenderer(mapa,2.5f/ppm, batch);
     }
 
 

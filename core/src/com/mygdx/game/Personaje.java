@@ -40,7 +40,7 @@ class Personaje extends GameObject {
         if(estado == EstadoMovimiento.CAMINANDO){
             float velx = max_velocity;
             float vely = max_velocity * knoby;
-            if(fall) vely -= 2f;
+            if(fall) vely -= max_velocity+.5f;
             if(slow) velx *= .8f;
             this.x += velx * delta;
             this.y += vely * delta;
