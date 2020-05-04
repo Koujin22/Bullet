@@ -98,7 +98,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.createBtn(manager.get("btn-play.png", Texture.class),
 				manager.get("btn-play-presionado.png", Texture.class),
 				ANCHO/2,
-				4*ALTO/8,
+				6*ALTO/10,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -111,7 +111,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.createBtn(manager.get("btn-about.png", Texture.class),
 				manager.get("btn-about-presionado.png", Texture.class),
 				ANCHO/2,
-				4*ALTO/15,
+				2*ALTO/20,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -125,7 +125,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.createBtn(manager.get("btn-configt.png", Texture.class),
 				manager.get("btn-configt-presionado.png", Texture.class),
 				ANCHO/2,
-				ALTO/30,
+				7*ALTO/20,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -212,7 +212,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 		pantallaOpciones.createBtn(style,
 				ANCHO/2,
-				ALTO / 4,
+				ALTO / 2,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
