@@ -88,8 +88,8 @@ class Nivel extends Pantalla implements InputProcessor {
     private void createPauseMenu(){
         pauseMenu = new PantallaMenu(juego);
 
-        pauseMenu.createBtn(new Texture("back.png"),
-               new Texture("backPressed.png"),
+        pauseMenu.createBtn(new Texture("btn-resume.png"),
+               new Texture("btn-resume-presionado.png"),
                 ANCHO/2,
                 ALTO/2,
                 new ClickListener() {
