@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -53,7 +54,7 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private Music audioFondo; //Largo
 
-    private Stage escena2D, escenaHUD, escenaPausa;
+    private Stage escena2D, escenaHUD, escenaPausa, escenaInstrucciones;
     private OrthographicCamera camera2D, cameraHUD;
     private Viewport vista2D, vistaHUD;
 
@@ -68,6 +69,7 @@ class Nivel extends Pantalla implements InputProcessor {
     private boolean disposing = false;
     private PantallaMenu pauseMenu;
     private PantallaMenu nivelDisplay;
+    private PantallaMenu instrucciones;
 
     Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual) {
         super(juego);
@@ -84,7 +86,23 @@ class Nivel extends Pantalla implements InputProcessor {
 
         this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM);
     }
-
+    private void createPauseBoton(){
+        inputMultiplexer.addProcessor(escenaInstrucciones);
+        instrucciones.createBtn(new Texture("btn-pausa.png"),
+                new Texture("btn-pausa-presionado.png"),
+                ANCHO-30,
+                ALTO-55,
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        System.out.println("Si entra");
+                        pause = true;
+                        inputMultiplexer.addProcessor(escenaPausa);
+                        escenaInstrucciones.clear();
+                    }
+                });
+    }
     private void createPauseMenu(){
         pauseMenu = new PantallaMenu(juego);
 
@@ -97,8 +115,8 @@ class Nivel extends Pantalla implements InputProcessor {
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
                         pause = false;
-
                         inputMultiplexer.removeProcessor(escenaPausa);
+                        createPauseBoton();
                     }
                 });
 
@@ -219,7 +237,6 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void setInputProcesors(){
-
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(this);
         inputMultiplexer.addProcessor(escenaHUD);
@@ -245,8 +262,11 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void crearHUD(){
+        instrucciones = new PantallaMenu(juego);
         nivelDisplay = new PantallaMenu(juego);
-        nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO-120, ALTO-20);
+        nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO/2, ALTO-20);
+        instrucciones.addTexto("fuenteTecno.fnt", "Toque para empezar", ANCHO/2, ALTO/2);
+        escenaInstrucciones = instrucciones.getStage();
         escenaHUD = nivelDisplay.getStage();
         Skin skin = new Skin();
         skin.add("fondo", new Texture("Joystick.png"));
@@ -312,7 +332,7 @@ class Nivel extends Pantalla implements InputProcessor {
         if(!pause){
             escena2D.getBatch().setProjectionMatrix(camera2D.combined);
             escenaHUD.getBatch().setProjectionMatrix(cameraHUD.combined);
-
+            escenaInstrucciones.getBatch().setProjectionMatrix(cameraHUD.combined);
             bala.updatePos(delta, knobYPer);
             updateCameraPos(delta);
         }else {
@@ -327,8 +347,8 @@ class Nivel extends Pantalla implements InputProcessor {
         escena2D.getBatch().end();
         escena2D.draw();
         escenaHUD.draw();
+        escenaInstrucciones.draw();
         if(!disposing){
-
             debug2d.render(world, camera2D.combined);
         }
         if(!pause) {
@@ -371,6 +391,7 @@ class Nivel extends Pantalla implements InputProcessor {
         //TODO: assetManager dispose
         this.disposing = true;
         pauseMenu.dispose();
+        escenaInstrucciones.dispose();
         map.dispose();
         escenaHUD.dispose();
         escena2D.dispose();
@@ -382,27 +403,10 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) {
-        if(keycode== Input.Keys.ESCAPE) {
-            this.pause = !this.pause;
-            if(!pause){
-                inputMultiplexer.removeProcessor(escenaPausa);
-            }else{
-                inputMultiplexer.addProcessor(escenaPausa);
-            }
-
-        }
-        return false;
-    }
+    public boolean keyDown(int keycode) { return false; }
 
     @Override
-    public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.SPACE){
-            bala.start();
-            estado = EstadoMovimiento.CAMINANDO;
-        }
-        return false;
-    }
+    public boolean keyUp(int keycode) { return false; }
 
     @Override
     public boolean keyTyped(char character) {
@@ -411,18 +415,20 @@ class Nivel extends Pantalla implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(!pause && screenY > 80) {
+            bala.start();
+            estado = EstadoMovimiento.CAMINANDO;
+            escenaInstrucciones.clear();
+            createPauseBoton();
+        }
         return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
+    public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
