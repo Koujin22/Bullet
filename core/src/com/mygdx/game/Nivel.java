@@ -349,7 +349,7 @@ class Nivel extends Pantalla implements InputProcessor {
         escenaHUD.draw();
         escenaInstrucciones.draw();
         if(!disposing){
-            debug2d.render(world, camera2D.combined);
+            //debug2d.render(world, camera2D.combined);
         }
         if(!pause) {
 
