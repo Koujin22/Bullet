@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,7 +42,6 @@ public class Juego extends com.badlogic.gdx.Game {
 		manager = new AssetManager();
 		Opciones.CargarOpciones();
 		initPantallas();
-
 		setScreen(pantallaMenu);
 	}
 
@@ -116,9 +116,9 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						Gdx.input.setCatchKey(Input.Keys.BACK, true);
 						pantallaAcerca.setActiveScreen();
 						setScreen(pantallaAcerca);
-
 					}
 				});
 
@@ -130,6 +130,7 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						Gdx.input.setCatchKey(Input.Keys.BACK, true);
 						pantallaOpciones.setActiveScreen();
 						setScreen(pantallaOpciones);
 					}
@@ -151,6 +152,7 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						Gdx.input.setCatchKey(Input.Keys.BACK, false);
 						getScreen().hide();
 						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
@@ -178,7 +180,6 @@ public class Juego extends com.badlogic.gdx.Game {
 				ANCHO/2,
 				ALTO-9*ALTO/16);
 
-
 	}
 
 	void createOptiones(){
@@ -193,6 +194,7 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
+						Gdx.input.setCatchKey(Input.Keys.BACK, false);
 						getScreen().hide();
 						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);

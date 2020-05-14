@@ -82,6 +82,7 @@ class Nivel extends Pantalla implements InputProcessor {
         setWorld();
         createPauseMenu();
         setInputProcesors();
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
         //TODO: assetmanager
 
         this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM);
@@ -96,7 +97,6 @@ class Nivel extends Pantalla implements InputProcessor {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        System.out.println("Si entra");
                         pause = true;
                         inputMultiplexer.addProcessor(escenaPausa);
                         escenaInstrucciones.clear();
@@ -360,6 +360,11 @@ class Nivel extends Pantalla implements InputProcessor {
             }
         }else {
             escenaPausa.draw();
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            pause = true;
+            inputMultiplexer.addProcessor(escenaPausa);
+            escenaInstrucciones.clear();
         }
     }
 
