@@ -116,7 +116,6 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						Gdx.input.setCatchKey(Input.Keys.BACK, true);
 						pantallaAcerca.setActiveScreen();
 						setScreen(pantallaAcerca);
 					}
@@ -130,14 +129,12 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						Gdx.input.setCatchKey(Input.Keys.BACK, true);
 						pantallaOpciones.setActiveScreen();
 						setScreen(pantallaOpciones);
 					}
 				});
 
 		pantallaMenu.addTexto("fuenteTecno.fnt", "Bullet Time Reloaded", ANCHO/2, ALTO-ALTO/12);
-
 
 	}
 
@@ -152,7 +149,6 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						Gdx.input.setCatchKey(Input.Keys.BACK, false);
 						getScreen().hide();
 						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
@@ -179,7 +175,7 @@ public class Juego extends com.badlogic.gdx.Game {
 				"Semestre Febrero-Junio 2020",
 				ANCHO/2,
 				ALTO-9*ALTO/16);
-
+		pantallaAcerca.addBack(pantallaMenu);
 	}
 
 	void createOptiones(){
@@ -194,7 +190,6 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						Gdx.input.setCatchKey(Input.Keys.BACK, false);
 						getScreen().hide();
 						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
@@ -224,7 +219,7 @@ public class Juego extends com.badlogic.gdx.Game {
 					}
 				});
 
-
+		pantallaOpciones.addBack(pantallaMenu);
 	}
 
 	void iniciarJuego(){

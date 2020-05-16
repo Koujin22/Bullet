@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +21,8 @@ class PantallaMenu extends Pantalla {
     private Texture texturaFondo;
     private final Stage stage;
     private final ArrayList<Texto> texto = new ArrayList<>();
-
+    boolean backBoton = false;
+    PantallaMenu previous;
 
     // Constructor, inicializa los objetos camara, vista, batch
     PantallaMenu(Juego juego, Texture texturaFondo) {
@@ -78,6 +80,12 @@ class PantallaMenu extends Pantalla {
 
 
     }
+
+    void addBack(PantallaMenu previous){
+        this.previous = previous;
+        backBoton = true;
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+    }
     @Override
     public void show() {
     }
@@ -91,6 +99,11 @@ class PantallaMenu extends Pantalla {
 
         stage.getBatch().end();
         stage.draw();
+        if(backBoton == true && Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            juego.getScreen().hide();
+            previous.setActiveScreen();
+            juego.setScreen(previous);
+        }
     }
 
     // Notifica a la vista, que el tamaño de la pantalla física ha cambiado
