@@ -352,7 +352,6 @@ class Nivel extends Pantalla implements InputProcessor {
             //debug2d.render(world, camera2D.combined);
         }
         if(!pause) {
-
             if (!disposing) {
                 world.step(1 / 60f, 6, 2);
             } else if (!world.isLocked()) {
@@ -360,11 +359,6 @@ class Nivel extends Pantalla implements InputProcessor {
             }
         }else {
             escenaPausa.draw();
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            pause = true;
-            inputMultiplexer.addProcessor(escenaPausa);
-            escenaInstrucciones.clear();
         }
     }
 
@@ -408,7 +402,19 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) { return false; }
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK) {
+            if (!pause) {
+                pause = true;
+                inputMultiplexer.addProcessor(escenaPausa);
+                escenaInstrucciones.clear();
+            } else {
+                pause = !pause;
+                endLevel(false);
+            }
+        }
+        return false;
+    }
 
     @Override
     public boolean keyUp(int keycode) { return false; }
