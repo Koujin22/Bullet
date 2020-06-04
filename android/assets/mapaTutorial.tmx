@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="76">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="84">
  <tileset firstgid="1" name="tileee" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
   <image source="tileee.png" width="1024" height="1024"/>
  </tileset>
@@ -24,11 +24,9 @@
  </layer>
  <objectgroup id="18" name="looser">
   <object id="48" x="0" y="0" width="4349.33" height="64"/>
-  <object id="49" x="0" y="352" width="4350.67" height="32"/>
-  <object id="50" x="288" y="224" width="192" height="96"/>
+  <object id="49" x="0" y="322" width="4350.67" height="62"/>
   <object id="51" x="288" y="64" width="192" height="64"/>
   <object id="52" x="320" y="128" width="128" height="32"/>
-  <object id="54" x="768" y="224" width="96" height="128"/>
   <object id="55" x="1152" y="64" width="96" height="96"/>
   <object id="56" x="1152" y="224" width="96" height="96"/>
   <object id="57" x="1344" y="128" width="96" height="96"/>
@@ -36,21 +34,29 @@
   <object id="59" x="1536" y="224" width="96" height="96"/>
   <object id="60" x="1792" y="256" width="160" height="64"/>
   <object id="61" x="1792" y="64" width="160" height="96"/>
-  <object id="62" x="2048" y="160" width="64" height="160"/>
   <object id="63" x="2176" y="64" width="32" height="128"/>
-  <object id="64" x="2272" y="160" width="64" height="160"/>
   <object id="65" x="2400" y="64" width="32" height="128"/>
   <object id="66" x="2496" y="224" width="128" height="96"/>
   <object id="68" x="2816" y="160" width="320" height="160"/>
   <object id="69" x="3488" y="160" width="64" height="160"/>
+  <object id="76" x="308" y="224" width="151" height="95"/>
+  <object id="77" x="775" y="238" width="84" height="79">
+   <ellipse/>
+  </object>
+  <object id="78" x="2069" y="172" width="22" height="148"/>
+  <object id="79" x="2057" y="209" width="10" height="72"/>
+  <object id="80" x="2093" y="201" width="9" height="80"/>
+  <object id="81" x="2292" y="174" width="22" height="148"/>
+  <object id="82" x="2281" y="201" width="9" height="77"/>
+  <object id="83" x="2313" y="209" width="15" height="69"/>
  </objectgroup>
- <objectgroup id="19" name="winner">
+ <objectgroup id="19" name="winner" visible="0">
   <object id="70" x="3840" y="160" width="96" height="64"/>
  </objectgroup>
- <objectgroup id="20" name="fall">
+ <objectgroup id="20" name="fall" visible="0">
   <object id="74" x="1024" y="64" width="32" height="288"/>
  </objectgroup>
- <objectgroup id="21" name="slow">
+ <objectgroup id="21" name="slow" visible="0">
   <object id="75" x="3232" y="64" width="128" height="224"/>
  </objectgroup>
 </map>

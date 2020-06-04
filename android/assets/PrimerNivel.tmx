@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="95">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="101">
  <tileset firstgid="1" name="tileee" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
   <image source="tileee.png" width="1024" height="1024"/>
  </tileset>
@@ -24,22 +24,26 @@
  </layer>
  <objectgroup id="18" name="looser">
   <object id="76" x="0" y="320" width="4349" height="64"/>
-  <object id="77" x="288" y="224" width="96" height="96"/>
-  <object id="78" x="704" y="160" width="64" height="160"/>
   <object id="79" x="0" y="0" width="4351" height="64"/>
   <object id="80" x="2816" y="160" width="96" height="96"/>
   <object id="82" x="3072" y="64" width="96" height="96"/>
   <object id="83" x="3360" y="224" width="96" height="96"/>
   <object id="84" x="1312" y="64" width="32" height="160"/>
   <object id="85" x="1152" y="64" width="32" height="160"/>
+  <object id="97" x="298" y="241" width="75" height="74">
+   <ellipse/>
+  </object>
+  <object id="98" x="724" y="171" width="25" height="133"/>
+  <object id="99" x="712" y="196" width="8" height="84"/>
+  <object id="100" x="752" y="198" width="8" height="84"/>
  </objectgroup>
- <objectgroup id="19" name="winner">
+ <objectgroup id="19" name="winner" visible="0">
   <object id="70" x="3840" y="160" width="96" height="64"/>
  </objectgroup>
- <objectgroup id="20" name="fall">
+ <objectgroup id="20" name="fall" visible="0">
   <object id="86" x="1632" y="64" width="96" height="256"/>
  </objectgroup>
- <objectgroup id="21" name="slow">
+ <objectgroup id="21" name="slow" visible="0">
   <object id="87" x="2112" y="64" width="96" height="96"/>
   <object id="91" x="2304" y="192" width="96" height="96"/>
   <object id="92" x="2528" y="64" width="96" height="224"/>
