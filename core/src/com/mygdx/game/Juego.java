@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.io.File;
 import java.io.FileWriter;
 
 public class Juego extends com.badlogic.gdx.Game {
@@ -28,7 +30,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	private Nivel currentLevel;
 	private int currentLvl = 0;
 
-	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx", "mapaTutorial.tmx"};
+	private final String[] LEVEL_FILES = new String[]{ "nivel3.tmx","PrimerNivel.tmx","mapaTutorial.tmx",  "nivel4.tmx", "nivel5.tmx"};
 
 	private AssetManager manager;
 
@@ -37,12 +39,22 @@ public class Juego extends com.badlogic.gdx.Game {
 	static final float ANCHO = 1280;
 	static final float ALTO = 704;
 
+	static int highscore = 0;
+	static int score = 0;
+	static Preferences prefs;
+
 	@Override
 	public void create () {
+		getPreferences();
 		manager = new AssetManager();
 		Opciones.CargarOpciones();
 		initPantallas();
 		setScreen(pantallaMenu);
+	}
+
+	void getPreferences(){
+		prefs = Gdx.app.getPreferences("Bullet");
+		highscore = prefs.getInteger("highscore");
 	}
 
 	void initPantallas(){
@@ -239,6 +251,10 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void nextLevel(){
 		currentLvl++;
+		score ++;
+		if (highscore<score){
+			prefs.putInteger("highscore", score);
+		}
 		iniciarJuego(LEVEL_FILES[currentLvl]);
 
 	}

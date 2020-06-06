@@ -164,6 +164,9 @@ class Nivel extends Pantalla implements InputProcessor {
                     case "slow":
                         bala.setSlow(true);
                         break;
+                    case "invert":
+                        bala.setInvert(true);
+                        break;
                     default:
                         break;
                 }
@@ -181,6 +184,9 @@ class Nivel extends Pantalla implements InputProcessor {
                         break;
                     case "slow":
                         bala.setSlow(false);
+                        break;
+                    case "invert":
+                        bala.setInvert(false);
                         break;
                     default:
                         break;
