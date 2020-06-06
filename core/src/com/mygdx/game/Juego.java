@@ -30,7 +30,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	private Nivel currentLevel;
 	private int currentLvl = 0;
 
-	private final String[] LEVEL_FILES = new String[]{ "nivel3.tmx","PrimerNivel.tmx","mapaTutorial.tmx",  "nivel4.tmx", "nivel5.tmx"};
+	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx","mapaTutorial.tmx",  "nivel3.tmx", "nivel4.tmx", "nivel5.tmx"};
 
 	private AssetManager manager;
 

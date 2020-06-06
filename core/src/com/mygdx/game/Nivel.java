@@ -85,7 +85,7 @@ class Nivel extends Pantalla implements InputProcessor {
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
         //TODO: assetmanager
 
-        this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM);
+        this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM, nivelActual);
     }
     private void createPauseBoton(){
         inputMultiplexer.addProcessor(escenaInstrucciones);
