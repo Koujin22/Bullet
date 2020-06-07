@@ -237,14 +237,14 @@ public class Juego extends com.badlogic.gdx.Game {
 	void iniciarJuego(){
 		freeRecursosPantallas();
 		currentLvl = 0;
-		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
 
 	void iniciarJuego(String filename){
 		currentLevel.dispose();
-		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
@@ -253,6 +253,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		currentLvl++;
 		score ++;
 		if (highscore<score){
+			highscore = score;
 			prefs.putInteger("highscore", score);
 		}
 		iniciarJuego(LEVEL_FILES[currentLvl]);
