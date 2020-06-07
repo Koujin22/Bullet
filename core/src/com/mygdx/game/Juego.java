@@ -57,6 +57,33 @@ public class Juego extends com.badlogic.gdx.Game {
 		highscore = prefs.getInteger("highscore");
 	}
 
+	void lostPantalla(){
+		agregarAssetsPantallas();
+		createLost();
+	}
+
+	private void createLost(){
+		PantallaMenu lost = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+
+		lost.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
+				ANCHO/2,
+				4*ALTO/8,
+				new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						initPantallas(false);
+					}
+				});
+
+		lost.addTexto("fuenteTecno.fnt", "Perdiste", ANCHO/2, ALTO-ALTO/12);
+
+		lost.setActiveScreen();
+		setScreen(lost);
+		//currentLevel.dispose();
+	}
+
 	void initPantallas(){
 		agregarAssetsPantallas();
 		createMenu();
