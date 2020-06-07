@@ -36,7 +36,7 @@ class Mapa {
     private MapObjects objects;
 
 
-    Mapa(SpriteBatch batch, TiledMap mapatmp, World world, OrthographicCamera scrollingCamera, float ppm) {
+    Mapa(SpriteBatch batch, TiledMap mapatmp, World world, OrthographicCamera scrollingCamera, float ppm, int nivelActual) {
 
 
 
@@ -64,8 +64,11 @@ class Mapa {
             }
         }
 
-
-        rendererMapa = new OrthogonalTiledMapRenderer(mapa,2.5f/ppm, batch);
+        if (nivelActual>1){ //nivelActual>1
+            rendererMapa = new OrthogonalTiledMapRenderer(mapa, 3.3f / ppm, batch);
+        }else {
+            rendererMapa = new OrthogonalTiledMapRenderer(mapa, 2.5f / ppm, batch);
+        }
     }
 
 

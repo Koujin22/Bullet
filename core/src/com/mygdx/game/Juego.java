@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.io.File;
 import java.io.FileWriter;
 
 public class Juego extends com.badlogic.gdx.Game {
@@ -28,7 +30,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	private Nivel currentLevel;
 	private int currentLvl = 0;
 
-	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx", "mapaTutorial.tmx"};
+	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx","mapaTutorial.tmx",  "nivel3.tmx", "nivel4.tmx", "nivel5.tmx"};
 
 	private AssetManager manager;
 
@@ -37,12 +39,22 @@ public class Juego extends com.badlogic.gdx.Game {
 	static final float ANCHO = 1280;
 	static final float ALTO = 704;
 
+	static int highscore = 0;
+	static int score = 0;
+	static Preferences prefs;
+
 	@Override
 	public void create () {
+		getPreferences();
 		manager = new AssetManager();
 		Opciones.CargarOpciones();
 		initPantallas();
 		setScreen(pantallaMenu);
+	}
+
+	void getPreferences(){
+		prefs = Gdx.app.getPreferences("Bullet");
+		highscore = prefs.getInteger("highscore");
 	}
 
 	void initPantallas(){
@@ -52,16 +64,43 @@ public class Juego extends com.badlogic.gdx.Game {
 		createOptiones();
 		pantallaMenu.setActiveScreen();
 	}
-	void initPantallas(boolean nul){
+
+	void lostPantalla(){
 		agregarAssetsPantallas();
+		createLost();
+	}
+
+	void initPantallas(boolean nul){
 		createMenu();
 		createAcerca();
 		createOptiones();
 		pantallaMenu.setActiveScreen();
 		setScreen(pantallaMenu);
 
+	}
+
+	private void createLost(){
+		PantallaMenu lost = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+
+		lost.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
+				ANCHO/2,
+				4*ALTO/8,
+				new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						initPantallas(false);
+					}
+				});
+
+		lost.addTexto("fuenteTecno.fnt", "Perdiste", ANCHO/2, ALTO-ALTO/12);
+
+		lost.setActiveScreen();
+		setScreen(lost);
 		currentLevel.dispose();
 	}
+
 
 	private void agregarAssetsPantallas(){
 
@@ -225,20 +264,25 @@ public class Juego extends com.badlogic.gdx.Game {
 	void iniciarJuego(){
 		freeRecursosPantallas();
 		currentLvl = 0;
-		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
 
 	void iniciarJuego(String filename){
 		currentLevel.dispose();
-		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl);
+		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
 
 	void nextLevel(){
 		currentLvl++;
+		score ++;
+		if (highscore<score){
+			highscore = score;
+			prefs.putInteger("highscore", score);
+		}
 		iniciarJuego(LEVEL_FILES[currentLvl]);
 
 	}

@@ -49,6 +49,7 @@ class Nivel extends Pantalla implements InputProcessor {
 
     private Personaje bala;
     private Mapa map;
+    private int highscore  = 0;
 
     private boolean pause = false;
 
@@ -71,9 +72,10 @@ class Nivel extends Pantalla implements InputProcessor {
     private PantallaMenu nivelDisplay;
     private PantallaMenu instrucciones;
 
-    Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual) {
+    Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual, int highscore) {
         super(juego);
         this.max_velocity = max_velocity;
+        this.highscore = highscore;
         this.nivelActual = nivelActual;
         setViews();
         crearHUD();
@@ -85,7 +87,7 @@ class Nivel extends Pantalla implements InputProcessor {
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
         //TODO: assetmanager
 
-        this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM);
+        this.map = new Mapa((SpriteBatch) escena2D.getBatch(), tiledMap, world, camera2D, PPM, nivelActual);
     }
     private void createPauseBoton(){
         inputMultiplexer.addProcessor(escenaInstrucciones);
@@ -164,6 +166,9 @@ class Nivel extends Pantalla implements InputProcessor {
                     case "slow":
                         bala.setSlow(true);
                         break;
+                    case "invert":
+                        bala.setInvert(true);
+                        break;
                     default:
                         break;
                 }
@@ -181,6 +186,9 @@ class Nivel extends Pantalla implements InputProcessor {
                         break;
                     case "slow":
                         bala.setSlow(false);
+                        break;
+                    case "invert":
+                        bala.setInvert(false);
                         break;
                     default:
                         break;
@@ -264,7 +272,8 @@ class Nivel extends Pantalla implements InputProcessor {
     private void crearHUD(){
         instrucciones = new PantallaMenu(juego);
         nivelDisplay = new PantallaMenu(juego);
-        nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+nivelActual, ANCHO/2, ALTO-20);
+        nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+(nivelActual+1), ANCHO/2-250, ALTO-20);
+        nivelDisplay.addTexto("fuenteTecno.fnt", "Highscore: "+(highscore+1), ANCHO/2+250, ALTO-20);
         instrucciones.addTexto("fuenteTecno.fnt", "Toque para empezar", ANCHO/2, ALTO/2);
         escenaInstrucciones = instrucciones.getStage();
         escenaHUD = nivelDisplay.getStage();
@@ -312,7 +321,7 @@ class Nivel extends Pantalla implements InputProcessor {
             juego.nextLevel();
         }
         else{
-            juego.initPantallas(false);
+            juego.lostPantalla();
         }
 
 

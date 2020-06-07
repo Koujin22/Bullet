@@ -13,7 +13,7 @@ class Personaje extends GameObject {
     private float KnobY = 0;
     private float start, curr, total;
     private int cuenta;
-    private boolean fall = false, slow = false;
+    private boolean fall = false, slow = false, invert = false;
 
     Personaje(Vector2 size, float x, float y, Texture textura, SpriteBatch batch, float max_velocity) {
         super(size, x, y, textura, batch);
@@ -42,6 +42,7 @@ class Personaje extends GameObject {
             float vely = max_velocity * knoby;
             if(fall) vely -= max_velocity+.5f;
             if(slow) velx *= .8f;
+            if(invert) vely = 0-vely;
             this.x += velx * delta;
             this.y += vely * delta;
             body.setLinearVelocity(velx, vely );
@@ -69,5 +70,9 @@ class Personaje extends GameObject {
 
     public boolean isSlow() {
         return slow;
+    }
+
+    public void setInvert(boolean b) {
+        invert = b;
     }
 }
