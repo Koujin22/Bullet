@@ -31,7 +31,7 @@ class Mapa {
 
         mapa = mapatmp;
 
-
+        System.out.println(nivelActual);
         float scaleFactor = (nivelActual>1)? 3.3f : 2.5f;
 
         for (MapLayer layer : mapa.getLayers()){
