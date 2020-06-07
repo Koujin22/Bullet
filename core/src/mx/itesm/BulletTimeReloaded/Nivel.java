@@ -309,10 +309,11 @@ class Nivel extends mx.itesm.BulletTimeReloaded.Pantalla implements InputProcess
     }
 
     private void endLevel(boolean win){
-        if(win){
+        if(win && nivelActual<4){
             juego.nextLevel();
-        }
-        else{
+        }else if(win){
+            juego.winPantalla();
+        }else{
             juego.lostPantalla();
         }
 

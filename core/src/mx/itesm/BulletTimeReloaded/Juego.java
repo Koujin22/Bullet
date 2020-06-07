@@ -74,6 +74,31 @@ public class Juego extends com.badlogic.gdx.Game {
 		setScreen(lost);
 		//currentLevel.dispose();
 	}
+	void winPantalla(){
+		agregarAssetsPantallas();
+		createWin();
+	}
+
+	private void createWin() {
+		mx.itesm.BulletTimeReloaded.PantallaMenu win = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+
+		win.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
+				ANCHO/2,
+				4*ALTO/8,
+				new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						initPantallas(false);
+					}
+				});
+
+		win.addTexto("fuenteTecno.fnt", "¡¡¡Felicidades, ganaste!!!", ANCHO/2, ALTO-ALTO/12);
+
+		win.setActiveScreen();
+		setScreen(win);
+	}
 
 	void initPantallas(){
 		agregarAssetsPantallas();
