@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package mx.itesm.BulletTimeReloaded;
 
 enum EstadoMovimiento {
     QUIETO,

@@ -1,20 +1,16 @@
-package com.mygdx.game;
+package mx.itesm.BulletTimeReloaded;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -24,21 +20,17 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-class Nivel extends Pantalla implements InputProcessor {
+class Nivel extends mx.itesm.BulletTimeReloaded.Pantalla implements InputProcessor {
 
     private final float ANCHO = Juego.ANCHO;
     private final float ALTO = Juego.ALTO;
@@ -68,9 +60,9 @@ class Nivel extends Pantalla implements InputProcessor {
     private float max_velocity;
     private int nivelActual;
     private boolean disposing = false;
-    private PantallaMenu pauseMenu;
-    private PantallaMenu nivelDisplay;
-    private PantallaMenu instrucciones;
+    private mx.itesm.BulletTimeReloaded.PantallaMenu pauseMenu;
+    private mx.itesm.BulletTimeReloaded.PantallaMenu nivelDisplay;
+    private mx.itesm.BulletTimeReloaded.PantallaMenu instrucciones;
 
     Nivel(Juego juego, TiledMap tiledMap, float max_velocity, int nivelActual, int highscore) {
         super(juego);
@@ -106,7 +98,7 @@ class Nivel extends Pantalla implements InputProcessor {
                 });
     }
     private void createPauseMenu(){
-        pauseMenu = new PantallaMenu(juego);
+        pauseMenu = new mx.itesm.BulletTimeReloaded.PantallaMenu(juego);
 
         pauseMenu.createBtn(new Texture("btn-resume.png"),
                new Texture("btn-resume-presionado.png"),
@@ -270,8 +262,8 @@ class Nivel extends Pantalla implements InputProcessor {
     }
 
     private void crearHUD(){
-        instrucciones = new PantallaMenu(juego);
-        nivelDisplay = new PantallaMenu(juego);
+        instrucciones = new mx.itesm.BulletTimeReloaded.PantallaMenu(juego);
+        nivelDisplay = new mx.itesm.BulletTimeReloaded.PantallaMenu(juego);
         nivelDisplay.addTexto("fuenteTecno.fnt", "Nivel: "+(nivelActual+1), ANCHO/2-250, ALTO-20);
         nivelDisplay.addTexto("fuenteTecno.fnt", "Highscore: "+(highscore+1), ANCHO/2+250, ALTO-20);
         instrucciones.addTexto("fuenteTecno.fnt", "Toque para empezar", ANCHO/2, ALTO/2);

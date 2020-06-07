@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package mx.itesm.BulletTimeReloaded;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

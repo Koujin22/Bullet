@@ -1,33 +1,24 @@
-package com.mygdx.game;
+package mx.itesm.BulletTimeReloaded;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import java.io.File;
-import java.io.FileWriter;
-
 public class Juego extends com.badlogic.gdx.Game {
 
 
-	private PantallaMenu pantallaMenu;
-	private PantallaMenu pantallaAcerca;
-	private PantallaMenu pantallaOpciones;
+	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaMenu;
+	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaAcerca;
+	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaOpciones;
 
-	private Nivel currentLevel;
+	private mx.itesm.BulletTimeReloaded.Nivel currentLevel;
 	private int currentLvl = 0;
 
 	private final String[] LEVEL_FILES = new String[]{"PrimerNivel.tmx","mapaTutorial.tmx",  "nivel3.tmx", "nivel4.tmx", "nivel5.tmx"};
@@ -47,7 +38,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	public void create () {
 		getPreferences();
 		manager = new AssetManager();
-		Opciones.CargarOpciones();
+		mx.itesm.BulletTimeReloaded.Opciones.CargarOpciones();
 		initPantallas();
 		setScreen(pantallaMenu);
 	}
@@ -63,7 +54,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createLost(){
-		PantallaMenu lost = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+		mx.itesm.BulletTimeReloaded.PantallaMenu lost = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		lost.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
@@ -132,7 +123,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createMenu(){
-		pantallaMenu = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+		pantallaMenu = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaMenu.createBtn(manager.get("btn-play.png", Texture.class),
 				manager.get("btn-play-presionado.png", Texture.class),
@@ -178,7 +169,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void createAcerca(){
-		pantallaAcerca = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+		pantallaAcerca = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaAcerca.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
@@ -219,7 +210,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	void createOptiones(){
 
-		pantallaOpciones = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+		pantallaOpciones = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaOpciones.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
@@ -236,7 +227,7 @@ public class Juego extends com.badlogic.gdx.Game {
 				});
 
 		ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-		if(Opciones.sonido) {
+		if(mx.itesm.BulletTimeReloaded.Opciones.sonido) {
 			style.imageUp = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-on.png", Texture.class))));
 			style.imageChecked = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-off.png", Texture.class))));
 			style.imageCheckedOver = new TextureRegionDrawable(new TextureRegion((manager.get("btn-music-off-presionado.png", Texture.class))));
@@ -253,8 +244,8 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						((ImageButton)event.getStage().getActors().get(event.getButton())).setChecked(Opciones.toggleSonido());
-						Opciones.SaveOptions();
+						((ImageButton)event.getStage().getActors().get(event.getButton())).setChecked(mx.itesm.BulletTimeReloaded.Opciones.toggleSonido());
+						mx.itesm.BulletTimeReloaded.Opciones.SaveOptions();
 					}
 				});
 
@@ -265,14 +256,14 @@ public class Juego extends com.badlogic.gdx.Game {
 		freeRecursosPantallas();
 		currentLvl = 0;
 		score = 0;
-		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl, highscore);
+		currentLevel = new mx.itesm.BulletTimeReloaded.Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
 
 	void iniciarJuego(String filename){
 		currentLevel.dispose();
-		currentLevel = new Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl, highscore);
+		currentLevel = new mx.itesm.BulletTimeReloaded.Nivel(this, new TmxMapLoader().load(filename), 1.5f+currentLvl/2, currentLvl, highscore);
 		setScreen(currentLevel);
 
 	}
