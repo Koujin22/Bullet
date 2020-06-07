@@ -321,7 +321,7 @@ class Nivel extends Pantalla implements InputProcessor {
             juego.nextLevel();
         }
         else{
-            juego.initPantallas(false);
+            juego.lostPantalla();
         }
 
 
