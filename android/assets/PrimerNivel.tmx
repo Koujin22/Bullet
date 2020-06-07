@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="102">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="136" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="23" nextobjectid="125">
  <tileset firstgid="1" name="tileee" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
   <image source="tileee.png" width="1024" height="1024"/>
  </tileset>
@@ -22,7 +22,7 @@
 769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,534,535,536,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,769,770,771,771,771,771,771,771,771,771,771,771,771,771,771,771
 </data>
  </layer>
- <objectgroup id="18" name="looser">
+ <objectgroup id="18" name="looser" visible="0">
   <object id="76" x="0" y="320" width="4349" height="64"/>
   <object id="79" x="0" y="0" width="4351" height="64"/>
   <object id="80" x="2816" y="160" width="96" height="96"/>
@@ -30,13 +30,16 @@
   <object id="83" x="3360" y="224" width="96" height="96"/>
   <object id="84" x="1312" y="64" width="32" height="160"/>
   <object id="85" x="1152" y="64" width="32" height="160"/>
-  <object id="97" x="298" y="241" width="75" height="74">
-   <ellipse/>
-  </object>
-  <object id="98" x="724" y="171" width="25" height="133"/>
-  <object id="99" x="712" y="196" width="8" height="84"/>
-  <object id="100" x="752" y="198" width="8" height="84"/>
+  <object id="98" x="723.333" y="183" width="25" height="127.667"/>
+  <object id="99" x="709.333" y="218.667" width="10.6667" height="61.3333"/>
+  <object id="100" x="752" y="218.667" width="6" height="63.3333"/>
   <object id="101" x="3935" y="63" width="415" height="257"/>
+  <object id="102" x="304.667" y="254" width="58" height="60"/>
+  <object id="103" x="363.333" y="259.333" width="6" height="55.3333"/>
+  <object id="104" x="370" y="266.667" width="2.66667" height="43.3333"/>
+  <object id="105" x="373.333" y="277.333" width="4.66667" height="27.3333"/>
+  <object id="106" x="296" y="267.333" width="8" height="40.6667"/>
+  <object id="107" x="310" y="244" width="46.6667" height="8.66667"/>
  </objectgroup>
  <objectgroup id="19" name="winner" visible="0">
   <object id="70" x="3840" y="160" width="96" height="64"/>
