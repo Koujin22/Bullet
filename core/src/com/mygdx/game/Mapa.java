@@ -45,6 +45,8 @@ class Mapa {
         mapa = mapatmp;
 
 
+        float scaleFactor = (nivelActual>1)? 3.3f : 2.5f;
+
         for (MapLayer layer : mapa.getLayers()){
             if(layer.getName().equals("escenario")) continue;
             objects = layer.getObjects();
@@ -52,10 +54,10 @@ class Mapa {
             for (RectangleMapObject rectangleMapObject : objects.getByType(RectangleMapObject.class)){
                 Rectangle rectangle = rectangleMapObject.getRectangle();
                 BodyDef groundBodyDef = new BodyDef();
-                groundBodyDef.position.set((rectangle.getX()+rectangle.width/2)*2.5f/ppm, (rectangle.getY()+rectangle.height/2)*2.5f/ppm);
+                groundBodyDef.position.set((rectangle.getX()+rectangle.width/2)*scaleFactor/ppm, (rectangle.getY()+rectangle.height/2)*scaleFactor/ppm);
                 Body groundBody = world.createBody(groundBodyDef);
                 PolygonShape groundBox = new PolygonShape();
-                groundBox.setAsBox((rectangle.getWidth()/2)*2.5f/ppm, (rectangle.getHeight()/2)*2.5f/ppm);
+                groundBox.setAsBox((rectangle.getWidth()/2)*scaleFactor/ppm, (rectangle.getHeight()/2)*scaleFactor/ppm);
                 groundBody.createFixture(groundBox, 0.0f);
 
                 groundBody.getFixtureList().get(0).setUserData(layer.getName());
@@ -64,11 +66,9 @@ class Mapa {
             }
         }
 
-        if (nivelActual>1){ //nivelActual>1
-            rendererMapa = new OrthogonalTiledMapRenderer(mapa, 3.3f / ppm, batch);
-        }else {
-            rendererMapa = new OrthogonalTiledMapRenderer(mapa, 2.5f / ppm, batch);
-        }
+
+        rendererMapa = new OrthogonalTiledMapRenderer(mapa, scaleFactor / ppm, batch);
+
     }
 
 

@@ -64,43 +64,16 @@ public class Juego extends com.badlogic.gdx.Game {
 		createOptiones();
 		pantallaMenu.setActiveScreen();
 	}
-
-	void lostPantalla(){
-		agregarAssetsPantallas();
-		createLost();
-	}
-
 	void initPantallas(boolean nul){
+		agregarAssetsPantallas();
 		createMenu();
 		createAcerca();
 		createOptiones();
 		pantallaMenu.setActiveScreen();
 		setScreen(pantallaMenu);
 
-	}
-
-	private void createLost(){
-		PantallaMenu lost = new PantallaMenu(this, manager.get("fondopn.png", Texture.class));
-
-		lost.createBtn(manager.get("back.png", Texture.class),
-				manager.get("backPressed.png", Texture.class),
-				ANCHO/2,
-				4*ALTO/8,
-				new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						super.clicked(event, x, y);
-						initPantallas(false);
-					}
-				});
-
-		lost.addTexto("fuenteTecno.fnt", "Perdiste", ANCHO/2, ALTO-ALTO/12);
-
-		lost.setActiveScreen();
-		setScreen(lost);
 		currentLevel.dispose();
 	}
-
 
 	private void agregarAssetsPantallas(){
 
@@ -264,6 +237,7 @@ public class Juego extends com.badlogic.gdx.Game {
 	void iniciarJuego(){
 		freeRecursosPantallas();
 		currentLvl = 0;
+		score = 0;
 		currentLevel = new Nivel(this, new TmxMapLoader().load(LEVEL_FILES[0]), 1.5f, currentLvl, highscore);
 		setScreen(currentLevel);
 
@@ -280,7 +254,6 @@ public class Juego extends com.badlogic.gdx.Game {
 		currentLvl++;
 		score ++;
 		if (highscore<score){
-			highscore = score;
 			prefs.putInteger("highscore", score);
 		}
 		iniciarJuego(LEVEL_FILES[currentLvl]);
