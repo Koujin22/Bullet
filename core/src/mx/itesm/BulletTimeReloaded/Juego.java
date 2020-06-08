@@ -17,6 +17,8 @@ public class Juego extends com.badlogic.gdx.Game {
 	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaMenu;
 	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaAcerca;
 	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaOpciones;
+	private mx.itesm.BulletTimeReloaded.PantallaMenu pantallaCreditos;
+
 
 	private mx.itesm.BulletTimeReloaded.Nivel currentLevel;
 	private int currentLvl = 0;
@@ -142,9 +144,11 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaMenu.dispose();
 		pantallaOpciones.dispose();
 		pantallaAcerca.dispose();
+		pantallaCreditos.dispose();
 		pantallaMenu = null;
 		pantallaAcerca = null;
 		pantallaOpciones = null;
+		pantallaCreditos = null;
 	}
 
 	private void createMenu(){
@@ -196,6 +200,8 @@ public class Juego extends com.badlogic.gdx.Game {
 	private void createAcerca(){
 		pantallaAcerca = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
+
+
 		pantallaAcerca.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
@@ -207,6 +213,19 @@ public class Juego extends com.badlogic.gdx.Game {
 						getScreen().hide();
 						pantallaMenu.setActiveScreen();
 						setScreen(pantallaMenu);
+					}
+				});
+		pantallaAcerca.createBtn(manager.get("btn-resume.png", Texture.class),
+				manager.get("btn-resume-presionado.png", Texture.class),
+				ANCHO/2,
+				2*ALTO/5,
+				new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						getScreen().hide();
+						pantallaCreditos.setActiveScreen();
+						setScreen(pantallaCreditos);
 					}
 				});
 
@@ -231,7 +250,40 @@ public class Juego extends com.badlogic.gdx.Game {
 				ANCHO/2,
 				ALTO-9*ALTO/16);
 		pantallaAcerca.addBack(pantallaMenu);
+
+
 	}
+
+	void createCreditos(){
+
+
+		pantallaCreditos = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
+
+		pantallaAcerca.addTexto("fuenteTecno.fnt",
+				"Acerca De",
+				ANCHO/2,
+				ALTO-ALTO/12);
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+				"Desarrolladores",
+				ANCHO/2,
+				ALTO-ALTO/4);
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+				"Ivan Honc, Bruno Vazquez, Jesus Alcala y Emiliano Heredia",
+				ANCHO/2,
+				ALTO-5*ALTO/16);
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+				"Desarrollado para la clase de desarrollo de videojuegos.",
+				ANCHO/2,
+				ALTO-7*ALTO/16);
+		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+				"Semestre Febrero-Junio 2020",
+				ANCHO/2,
+				ALTO-9*ALTO/16);
+
+		pantallaAcerca.addBack(pantallaAcerca);
+
+	}
+
 
 	void createOptiones(){
 
