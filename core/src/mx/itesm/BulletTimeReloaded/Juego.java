@@ -69,7 +69,7 @@ public class Juego extends com.badlogic.gdx.Game {
 				});
 
 		lost.addTexto("fuenteGanarPerder.fnt", "Perdiste", ANCHO/2, ALTO-ALTO/12);
-
+		lost.addBack(pantallaMenu);
 		lost.setActiveScreen();
 		setScreen(lost);
 		//currentLevel.dispose();
@@ -95,7 +95,7 @@ public class Juego extends com.badlogic.gdx.Game {
 				});
 
 		win.addTexto("fuenteGanarPerder.fnt", "Felicidades, ganaste!!!", ANCHO/2, ALTO-ALTO/12);
-
+		win.addBack(pantallaMenu);
 		win.setActiveScreen();
 		setScreen(win);
 	}
