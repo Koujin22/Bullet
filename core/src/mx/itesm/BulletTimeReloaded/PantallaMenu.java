@@ -95,6 +95,7 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla {
 
         stage.getBatch().end();
         stage.draw();
+        
         if(backBoton == true && Gdx.input.isKeyPressed(Input.Keys.BACK)){
             juego.getScreen().hide();
             previous.setActiveScreen();
