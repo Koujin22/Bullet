@@ -2,6 +2,7 @@ package mx.itesm.BulletTimeReloaded;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,12 +20,13 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla implements Input
     private final Stage stage;
     private final ArrayList<Texto> texto = new ArrayList<>();
     boolean backBoton = false;
+    boolean inicarPantalla = false;
+    private InputMultiplexer inputMultiplexer;
     PantallaMenu previous;
 
     // Constructor, inicializa los objetos camara, vista, batch
     PantallaMenu(Juego juego, Texture texturaFondo) {
         super(juego);
-
         this.texturaFondo = texturaFondo;
         this.stage = new Stage(vista);
     }
@@ -63,7 +65,10 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla implements Input
     }
 
     void setActiveScreen(){
-        Gdx.input.setInputProcessor(this.stage);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(this.stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     void addTexto(String archivo, String mensaje, float x, float y){
@@ -79,6 +84,12 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla implements Input
     }
 
     void addBack(PantallaMenu previous){
+        this.previous = previous;
+        backBoton = true;
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+    }
+    void addBack(PantallaMenu previous, boolean iniciarPantalla){
+        this.inicarPantalla = iniciarPantalla;
         this.previous = previous;
         backBoton = true;
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -129,10 +140,19 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla implements Input
 
     @Override
     public boolean keyDown(int keycode) {
-        if(backBoton == true && keycode == Input.Keys.BACK){
+        if(inicarPantalla==true && backBoton == true && keycode == Input.Keys.BACK){
+            juego.initPantallas();
             juego.getScreen().hide();
             previous.setActiveScreen();
             juego.setScreen(previous);
+        }
+        else if(backBoton == true && keycode == Input.Keys.BACK){
+            juego.getScreen().hide();
+            previous.setActiveScreen();
+            juego.setScreen(previous);
+        }
+        else if(previous==null){
+            System.exit(0);
         }
         return false;
     }

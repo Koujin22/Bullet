@@ -55,7 +55,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	private void createLost(){
 		mx.itesm.BulletTimeReloaded.PantallaMenu lost = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
-
+		initPantallas(false, true);
 		lost.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
@@ -64,12 +64,14 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						initPantallas(false);
+						pantallaMenu.setActiveScreen();
+						setScreen(pantallaMenu);
+						currentLevel.dispose();
 					}
 				});
 
 		lost.addTexto("fuenteGanarPerder.fnt", "Perdiste", ANCHO/2, ALTO-ALTO/12);
-		lost.addBack(pantallaMenu);
+		lost.addBack(pantallaMenu, true);
 		lost.setActiveScreen();
 		setScreen(lost);
 		//currentLevel.dispose();
@@ -81,7 +83,7 @@ public class Juego extends com.badlogic.gdx.Game {
 
 	private void createWin() {
 		mx.itesm.BulletTimeReloaded.PantallaMenu win = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
-
+		initPantallas(false, true);
 		win.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
@@ -90,12 +92,14 @@ public class Juego extends com.badlogic.gdx.Game {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
-						initPantallas(false);
+						pantallaMenu.setActiveScreen();
+						setScreen(pantallaMenu);
+						currentLevel.dispose();
 					}
 				});
 
 		win.addTexto("fuenteGanarPerder.fnt", "Felicidades, ganaste!!!", ANCHO/2, ALTO-ALTO/12);
-		win.addBack(pantallaMenu);
+		win.addBack(pantallaMenu, true);
 		win.setActiveScreen();
 		setScreen(win);
 	}
@@ -116,6 +120,13 @@ public class Juego extends com.badlogic.gdx.Game {
 		setScreen(pantallaMenu);
 
 		currentLevel.dispose();
+	}
+
+	void initPantallas(boolean nul, boolean nule){
+		agregarAssetsPantallas();
+		createMenu();
+		createAcerca();
+		createOptiones();
 	}
 
 	private void agregarAssetsPantallas(){
