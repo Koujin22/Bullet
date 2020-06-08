@@ -2,6 +2,7 @@ package mx.itesm.BulletTimeReloaded;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
-class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla {
+class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla implements InputProcessor {
 
 
     private Texture texturaFondo;
@@ -92,15 +93,8 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla {
         stage.getBatch().setProjectionMatrix(camara.combined);
         stage.getBatch().begin();
         if(texturaFondo!=null) stage.getBatch().draw(texturaFondo, 0, 0);
-
         stage.getBatch().end();
         stage.draw();
-        
-        if(backBoton == true && Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            juego.getScreen().hide();
-            previous.setActiveScreen();
-            juego.setScreen(previous);
-        }
     }
 
     // Notifica a la vista, que el tamaño de la pantalla física ha cambiado
@@ -133,4 +127,48 @@ class PantallaMenu extends mx.itesm.BulletTimeReloaded.Pantalla {
         if(texturaFondo!=null) texturaFondo.dispose();
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        if(backBoton == true && keycode == Input.Keys.BACK){
+            juego.getScreen().hide();
+            previous.setActiveScreen();
+            juego.setScreen(previous);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 }
