@@ -309,6 +309,8 @@ class Nivel extends mx.itesm.BulletTimeReloaded.Pantalla implements InputProcess
     }
 
     private void endLevel(boolean win){
+        audioFondo.stop();
+        audioFondo.dispose();
         if(win && nivelActual<4){
             juego.nextLevel();
         }else if(win){
