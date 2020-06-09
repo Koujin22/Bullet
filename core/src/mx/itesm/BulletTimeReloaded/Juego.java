@@ -392,6 +392,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		if (highscore<score){
 			highscore = score;
 			prefs.putInteger("highscore", score);
+			prefs.flush();
 		}
 		iniciarJuego(LEVEL_FILES[currentLvl]);
 

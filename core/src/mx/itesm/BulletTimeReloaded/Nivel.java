@@ -101,7 +101,7 @@ class Nivel extends mx.itesm.BulletTimeReloaded.Pantalla implements InputProcess
         pauseMenu = new mx.itesm.BulletTimeReloaded.PantallaMenu(juego);
 
         pauseMenu.createBtn(new Texture("btn-resume.png"),
-               new Texture("btn-resume-presionado.png"),
+                   new Texture("btn-resume-presionado.png"),
                 ANCHO/2,
                 ALTO/2,
                 new ClickListener() {
