@@ -272,29 +272,46 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaCreditos = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
 		pantallaCreditos.addTexto("fuenteTecno.fnt",
-				"Acerca De",
+				"Autores de los Assets",
 				ANCHO/2,
 				ALTO-ALTO/12);
 		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
-				"Desarrolladores",
+				"Libreria de Mario Zechner",
 				ANCHO/2,
-				ALTO-ALTO/4);
+				ALTO-5*ALTO/32);
 		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
-				"Ivan Honc, Bruno Vazquez, Jesus Alcala y Emiliano Heredia",
+				"Tiles de Casper Nilsson, Daniel Eddeland, Johann Charlot,",
 				ANCHO/2,
-				ALTO-5*ALTO/16);
+				ALTO-8*ALTO/32);
 		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
-				"Desarrollado para la clase de desarrollo de videojuegos.",
+				"Skyler Robert Colladay, Lanea Zimmerman, Stephen Challener,",
 				ANCHO/2,
-				ALTO-7*ALTO/16);
+				ALTO-10*ALTO/32);
 		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
-				"Semestre Febrero-Junio 2020",
+				"Charles Sanchez, Manuel Riecke, Daniel Armstrong",
 				ANCHO/2,
-				ALTO-9*ALTO/16);
+				ALTO-12*ALTO/32);
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
+				"Tiles de Forgotten Adventures",
+				ANCHO/2,
+				ALTO-15*ALTO/32);
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
+				"Tiles de robuart",
+				ANCHO/2,
+				ALTO-18*ALTO/32);
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
+				"Tiles de Recursos Rpg Maker Vx y VX Ace",
+				ANCHO/2,
+				ALTO-21*ALTO/32);
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
+				"Tiles de Mack",
+				ANCHO/2,
+				ALTO-24*ALTO/32);
+
 		pantallaCreditos.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
-				ALTO/5,
+				ALTO/36,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
