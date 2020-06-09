@@ -1,10 +1,9 @@
-package com.mygdx.game;
+package mx.itesm.BulletTimeReloaded;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import mx.itesm.BulletTimeReloaded.Juego;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
