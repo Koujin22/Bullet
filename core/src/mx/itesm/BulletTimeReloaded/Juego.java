@@ -132,7 +132,8 @@ public class Juego extends com.badlogic.gdx.Game {
 	}
 
 	private void agregarAssetsPantallas(){
-
+		manager.load("btn-resume.png", Texture.class);
+		manager.load("btn-resume-presionado.png", Texture.class);
 		manager.load("fondopn.png", Texture.class);
 		manager.load("btn-play.png", Texture.class);
 		manager.load("btn-play-presionado.png", Texture.class);
@@ -216,7 +217,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaAcerca.createBtn(manager.get("back.png", Texture.class),
 				manager.get("backPressed.png", Texture.class),
 				ANCHO/2,
-				2*ALTO/10,
+				ALTO/26,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -229,7 +230,7 @@ public class Juego extends com.badlogic.gdx.Game {
 		pantallaAcerca.createBtn(manager.get("btn-resume.png", Texture.class),
 				manager.get("btn-resume-presionado.png", Texture.class),
 				ANCHO/2,
-				2*ALTO/5,
+				ALTO/5,
 				new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
@@ -261,7 +262,7 @@ public class Juego extends com.badlogic.gdx.Game {
 				ANCHO/2,
 				ALTO-9*ALTO/16);
 		pantallaAcerca.addBack(pantallaMenu);
-
+		createCreditos();
 
 	}
 
@@ -270,28 +271,40 @@ public class Juego extends com.badlogic.gdx.Game {
 
 		pantallaCreditos = new mx.itesm.BulletTimeReloaded.PantallaMenu(this, manager.get("fondopn.png", Texture.class));
 
-		pantallaAcerca.addTexto("fuenteTecno.fnt",
+		pantallaCreditos.addTexto("fuenteTecno.fnt",
 				"Acerca De",
 				ANCHO/2,
 				ALTO-ALTO/12);
-		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
 				"Desarrolladores",
 				ANCHO/2,
 				ALTO-ALTO/4);
-		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
 				"Ivan Honc, Bruno Vazquez, Jesus Alcala y Emiliano Heredia",
 				ANCHO/2,
 				ALTO-5*ALTO/16);
-		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
 				"Desarrollado para la clase de desarrollo de videojuegos.",
 				ANCHO/2,
 				ALTO-7*ALTO/16);
-		pantallaAcerca.addTexto("fuenteTecnoChica.fnt",
+		pantallaCreditos.addTexto("fuenteTecnoChica.fnt",
 				"Semestre Febrero-Junio 2020",
 				ANCHO/2,
 				ALTO-9*ALTO/16);
-
-		pantallaAcerca.addBack(pantallaAcerca);
+		pantallaCreditos.createBtn(manager.get("back.png", Texture.class),
+				manager.get("backPressed.png", Texture.class),
+				ANCHO/2,
+				ALTO/5,
+				new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						getScreen().hide();
+						pantallaAcerca.setActiveScreen();
+						setScreen(pantallaAcerca);
+					}
+				});
+		pantallaCreditos.addBack(pantallaAcerca);
 
 	}
 
